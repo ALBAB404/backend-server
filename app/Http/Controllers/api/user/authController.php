@@ -2,22 +2,25 @@
 
 namespace App\Http\Controllers\api\user;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\user\loginRequest;
-use App\Http\Requests\user\registerRequest;
-use App\Http\Resources\user\authresource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\user\loginRequest;
+use App\Http\Resources\user\authresource;
+use App\Http\Requests\user\registerRequest;
+use App\Http\Requests\user\OtpVerifyRequest;
 use Illuminate\Validation\ValidationException;
+
 
 class authController extends Controller
 {
-    public function login(loginRequest $request)
+    public function login(LoginRequest $request)
     {
-        $user = User::where('phone', $request->phone)->first();
 
-        if (! $user || ! Hash::check($request->password, $user->password)) {
+
+        $user = User::verifiedUser()->where('phone', $request->phone)->first();
+        if (!$user || !Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
                 'phone' => ['The provided credentials are incorrect.'],
             ]);
@@ -25,10 +28,55 @@ class authController extends Controller
 
         return $this->makeToken($user);
     }
-    public function register(registerRequest $request)
+    public function register(RegisterRequest $request)
     {
-        $user = User::create($request->all());
-        return $this->makeToken($user);
+        try {
+            $user = User::create($request->validated());
+            $data = twilio_env();
+            $res = $data->verifications->create("+88" . $user->phone, "sms");
+            return send_ms('Otp Send Success', $res->status, 200);
+        } catch (\Exception $e) {
+            return send_ms($e->getMessage(), false, $e->getCode());
+        }
+    }
+
+
+    public function OTPResend(Request $request)
+    {
+        try {
+            $user = User::where('phone', $request->phone)->first();
+            $data = twilio_env();
+            $res = $data->verifications->create("+88" . $user->phone, "sms");
+            return send_ms('Otp Send Success', $res->status, 200);
+        } catch (\Exception $e) {
+            return send_ms($e->getMessage(), false, $e->getCode());
+        }
+    }
+
+    public function verifyOtp(OtpVerifyRequest $request)
+    {
+        try {
+            $data = twilio_env();
+            $res =   $data->verificationChecks->create(
+                [
+                    "to" => "+88" . $request->phone,
+                    "code" => $request->otp_code
+                ]
+            );
+
+            if ($res->status === 'approved') {
+                $user = User::where('phone', $request->phone)->first();
+                $user->update(['isVerified' => 1]);
+                return $this->makeToken($user);
+            } else {
+                throw ValidationException::withMessages([
+                    'otp_code' => ['The provided Otp Code are incorrect.'],
+                ]);
+            }
+        } catch (\Exception $e) {
+            return send_ms($e->getMessage(), false, $e->getCode());
+        }
+
     }
 
 
@@ -47,9 +95,13 @@ class authController extends Controller
 
     public function logout(Request $request)
     {
-        $request->user()->tokens()->delete();
 
-        return send_ms('admin logout', true, 200);
+        try {
+            $request->user()->tokens()->delete();
+            return send_ms('User Logout', true, 200);
+        } catch (\Exception $e) {
+            return send_ms($e->getMessage(), false, $e->getCode());
+        }
     }
     public function user(Request $request)
     {

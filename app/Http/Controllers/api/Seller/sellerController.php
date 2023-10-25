@@ -18,7 +18,7 @@ class sellerController extends Controller
 
         if (! $seller || ! Hash::check($request->password, $seller->password)) {
             throw ValidationException::withMessages([
-                'phone' => ['The provided credentials are incorrect.'],
+                'phone' => ['The Phone Number is incorrect.'],
             ]);
         }
 

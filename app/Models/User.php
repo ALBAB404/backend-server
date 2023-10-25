@@ -25,7 +25,7 @@ class User extends Authenticatable
         'division_id',
         'district_id',
         'address',
-        'isVerified',
+        'isVerified',     // eta otp message er jonno diya . otp sms succesfully pele eta isverified hobe.
         'password'
     ];
 
@@ -48,4 +48,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function scopeverifiedUser($query)
+    {
+        $query->where('isVerified', 1);
+    }
 }

@@ -19,7 +19,7 @@ class adminController extends Controller
 
         if (! $admin || ! Hash::check($request->password, $admin->password)) {
             throw ValidationException::withMessages([
-                'phone' => ['The provided credentials are incorrect.'],
+                'phone' => ['The Phone Number is incorrect.'],
             ]);
         }
 

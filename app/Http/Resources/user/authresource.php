@@ -16,9 +16,10 @@ class authresource extends JsonResource
     {
         // return parent::toArray($request);
         return [
-            'name' => $this->name,
-            'email' => $this->email,
-            'phone' => $this->phone,
+            'name'       => $this->name,
+            'email'      => $this->email,
+            'phone'      => $this->phone,
+            'isVerified' => $this->isVerified,
         ];
     }
 }
