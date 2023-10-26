@@ -24,4 +24,18 @@ class Product extends Model
     protected $casts = [
         'image' => 'json',
     ];
+
+    public function scopeStatus($query, $status)
+    {
+        $query->where('status', $status);
+    }
+
+    public function scopeConditions($query, $type)
+    {
+        $query->where('conditions', $type);
+    }
+    public function scopeSold($query)
+    {
+        $query->where('sale', 1);
+    }
 }
