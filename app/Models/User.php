@@ -53,4 +53,9 @@ class User extends Authenticatable
     {
         $query->where('isVerified', 1);
     }
+
+    public function userWishlistProducts()
+    {
+        return $this->belongsToMany(Product::class, 'wishlists')->withTimestamps();
+    }
 }

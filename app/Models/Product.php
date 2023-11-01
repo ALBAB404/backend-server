@@ -38,4 +38,9 @@ class Product extends Model
     {
         $query->where('sale', 1);
     }
+
+    public function productWishlistUsers()
+    {
+        return $this->belongsToMany(User::class, 'wishlists')->withTimestamps();
+    }
 }

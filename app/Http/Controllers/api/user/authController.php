@@ -82,6 +82,7 @@ class authController extends Controller
 
     public function makeToken($user)
     {
+        $wishlist = $user->userWishlistProducts()->get();
         $token = $user->createToken('__Token')->plainTextToken;
 
         // return authresource::make($user);
@@ -90,6 +91,7 @@ class authController extends Controller
                 ->additional(['meta' => [
                     'token' => $token,
                     'token_type' => "bear_Token",
+                    'wishlist' => $wishlist,
                 ]]);
     }
 
