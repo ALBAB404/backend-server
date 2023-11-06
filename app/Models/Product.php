@@ -27,20 +27,25 @@ class Product extends Model
 
     public function scopeStatus($query, $status)
     {
-        $query->where('status', $status);
+        return  $query->where('status', $status);
     }
 
     public function scopeConditions($query, $type)
     {
-        $query->where('conditions', $type);
+        return  $query->where('conditions', $type);
     }
     public function scopeSold($query)
     {
-        $query->where('sale', 1);
+       return  $query->where('sale', 1);
     }
 
     public function productWishlistUsers()
     {
         return $this->belongsToMany(User::class, 'wishlists')->withTimestamps();
+    }
+
+    public function seller()
+    {
+        return  $this->belongsTo(Seller::class);
     }
 }

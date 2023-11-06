@@ -17,15 +17,18 @@ class SellerFactory extends Factory
      */
     public function definition(): array
     {
+        $image = "upload/category/" . $this->faker->numberBetween(1, 10) . ".png";
         return [
             'name' => fake()->name(),
             'phone' => fake()->phoneNumber(),
             'email' => fake()->safeEmail(),
             'shop_name' => fake()->name(),
+            'image' => $image,
             'slug' => fake()->slug(),
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
+            'isVerified' => 1,
         ];
     }
 }
