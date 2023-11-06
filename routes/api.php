@@ -33,6 +33,7 @@ Route::prefix('v1')->group(function(){
     Route::get('divisions', [DivisionController::class, 'index']);
     Route::get('sellers', [sellerListController::class, 'index']);
 
+    Route::get('shop-sideBar', [shopController::class, 'sideBar']);
     Route::get('products-shop', [shopController::class, 'index']);
     Route::get('sellers/products/{slug}', [sellerListController::class, 'sellerProducts']);
 });

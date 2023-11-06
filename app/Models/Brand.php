@@ -15,4 +15,14 @@ class Brand extends Model
      * @var array
      */
     protected $guarded = [];
+
+    public function scopeStatus($query, $status)
+    {
+       return  $query->where('status', $status);
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }
