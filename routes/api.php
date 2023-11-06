@@ -2,11 +2,12 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\shopController;
 use App\Http\Controllers\Api\Admin\BrandController;
 use App\Http\Controllers\Api\Admin\SliderController;
 use App\Http\Controllers\Api\Admin\ProductController;
-use App\Http\Controllers\Api\Admin\CategoryController;
 use App\Http\Controllers\Api\Admin\DivisionController;
+use App\Http\Controllers\Api\Admin\CategoryController;
 use App\Http\Controllers\api\Seller\sellerListController;
 
 /*
@@ -31,5 +32,7 @@ Route::prefix('v1')->group(function(){
     Route::get('products', [ProductController::class, 'index']);
     Route::get('divisions', [DivisionController::class, 'index']);
     Route::get('sellers', [sellerListController::class, 'index']);
+
+    Route::get('products-shop', [shopController::class, 'index']);
     Route::get('sellers/products/{slug}', [sellerListController::class, 'sellerProducts']);
 });
