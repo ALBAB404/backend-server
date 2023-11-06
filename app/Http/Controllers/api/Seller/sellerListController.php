@@ -16,10 +16,21 @@ class sellerListController extends Controller
         return SellerResource::collection($seller);
     }
 
-    public function sellerProducts(Seller $slug)
+    public function sellerProducts(Seller $slug, Request $request)
     {
         try {
-            return new SellerResource($slug) ;
+
+            $sort = $request->input('sort');
+            if($sort === 'default'){
+                $products =  $slug->products()->paginate($request->show);
+            }else{
+                $products =  $slug->products()->conditions($sort)->paginate($request->show);
+            }
+
+            return (new SellerResource($slug))
+                ->additional(['products' => [
+                    $products
+                ]]);
             // return response()->json($slug);
         } catch (\Exception $e) {
             return send_ms($e->getMessage(), false, $e->getCode());
