@@ -19,8 +19,8 @@ class sellerListController extends Controller
     public function sellerProducts(Seller $slug)
     {
         try {
-            // return new SellerResource($slug) ;
-            return response()->json($slug);
+            return new SellerResource($slug) ;
+            // return response()->json($slug);
         } catch (\Exception $e) {
             return send_ms($e->getMessage(), false, $e->getCode());
         }
