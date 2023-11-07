@@ -18,11 +18,11 @@ class Category extends Model
 
     public function scopeStatus($query, $status)
     {
-       return $query->where('status', $status);
+        return $query->where('status', $status);
     }
 
     public function products()
     {
-        return $this->hasMany(Product::class);
+        return $this->hasMany(Product::class)->where('status', 'active');
     }
 }
