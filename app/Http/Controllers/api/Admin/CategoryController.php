@@ -14,8 +14,14 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories =  Category::status('active')->paginate(10);
+        $categories = Category::status('active')->orderBy('name', 'ASC')->paginate(10);
         return CategoryResource::collection($categories);
+    }
+
+    public function navCategory()
+    {
+        $navCategories = product_count_upto_zero(Category::withCount('products')->with('SubCategory')->orderBy('name', 'ASC')->status('active')->get());
+        return CategoryResource::collection($navCategories);
     }
 
     /**

@@ -15,4 +15,9 @@ class SubCategory extends Model
      * @var array
      */
     protected $guarded = [];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }

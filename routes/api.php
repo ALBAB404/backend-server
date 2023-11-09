@@ -1,14 +1,13 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\shopController;
 use App\Http\Controllers\Api\Admin\BrandController;
-use App\Http\Controllers\Api\Admin\SliderController;
-use App\Http\Controllers\Api\Admin\ProductController;
-use App\Http\Controllers\Api\Admin\DivisionController;
 use App\Http\Controllers\Api\Admin\CategoryController;
+use App\Http\Controllers\Api\Admin\DivisionController;
+use App\Http\Controllers\Api\Admin\ProductController;
+use App\Http\Controllers\Api\Admin\SliderController;
 use App\Http\Controllers\api\Seller\sellerListController;
+use App\Http\Controllers\Api\shopController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,16 +18,17 @@ use App\Http\Controllers\api\Seller\sellerListController;
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "api" middleware group. Make something great!
 |
-*/
+ */
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
 
-Route::prefix('v1')->group(function(){
+Route::prefix('v1')->group(function () {
     Route::get('sliders', [SliderController::class, 'index']);
     Route::get('brands', [BrandController::class, 'index']);
     Route::get('categories', [CategoryController::class, 'index']);
+    Route::get('nav-categories', [CategoryController::class, 'navCategory']);
     Route::get('products', [ProductController::class, 'index']);
     Route::get('divisions', [DivisionController::class, 'index']);
     Route::get('sellers', [sellerListController::class, 'index']);
