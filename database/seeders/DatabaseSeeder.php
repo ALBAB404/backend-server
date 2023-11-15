@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'phone' => '01686381998',
             'email' => 'test@example.com',
+            "isVerified" => 1,
             'password' => Hash::make('password'),
         ]);
 

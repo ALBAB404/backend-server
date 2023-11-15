@@ -22,8 +22,14 @@ class Product extends Model
      * @var array
      */
     protected $casts = [
-        'image' => 'json',
+        'images' => 'json',
     ];
+
+     public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
 
     public function scopeStatus($query, $status)
     {

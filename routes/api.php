@@ -30,6 +30,7 @@ Route::prefix('v1')->group(function () {
     Route::get('categories', [CategoryController::class, 'index']);
     Route::get('nav-categories', [CategoryController::class, 'navCategory']);
     Route::get('products', [ProductController::class, 'index']);
+    Route::get('single-products/{slug}', [ProductController::class, 'productBySlug']);
     Route::get('divisions', [DivisionController::class, 'index']);
     Route::get('sellers', [sellerListController::class, 'index']);
 

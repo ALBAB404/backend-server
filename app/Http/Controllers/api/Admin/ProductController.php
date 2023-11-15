@@ -9,6 +9,12 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+
+    public function productBySlug(Product $slug)
+    {
+        return ProductResource::make($slug);
+    }
+
     /**
      * Display a listing of the resource.
      */

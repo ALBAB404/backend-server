@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug')->unique();
             $table->string('thumbnail');
-            $table->string('images');
+            $table->string('images', 1000);
             $table->float('price', 8, 2)->default(0);
             $table->integer('discount')->default(0);
             $table->text('descp')->nullable();
