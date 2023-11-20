@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\Admin\BrandController;
 use App\Http\Controllers\Api\Admin\CategoryController;
+use App\Http\Controllers\Api\Admin\DistrictController;
 use App\Http\Controllers\Api\Admin\DivisionController;
 use App\Http\Controllers\Api\Admin\ProductController;
 use App\Http\Controllers\Api\Admin\SliderController;
@@ -32,8 +33,9 @@ Route::prefix('v1')->group(function () {
     Route::get('products', [ProductController::class, 'index']);
     Route::get('single-products/{slug}', [ProductController::class, 'productBySlug']);
     Route::get('divisions', [DivisionController::class, 'index']);
-    Route::get('sellers', [sellerListController::class, 'index']);
+    Route::get('district/{division}', [DivisionController::class, 'divisionBydistrictId']);
 
+    Route::get('sellers', [sellerListController::class, 'index']);
     Route::get('shop-sideBar', [shopController::class, 'sideBar']);
     Route::get('products-shop', [shopController::class, 'index']);
     Route::get('sellers/products/{slug}', [sellerListController::class, 'sellerProducts']);

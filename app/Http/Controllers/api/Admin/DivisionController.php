@@ -9,12 +9,18 @@ use Illuminate\Http\Request;
 
 class DivisionController extends Controller
 {
+
+    public function divisionBydistrictId(Division $division)
+    {
+        return DivisionResource::collection($division->district()->get(['name','id','bn_name']));
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $divisions =  Division::latest()->get();
+        $divisions =  Division::latest()->get(['name','id','bn_name']);
         return DivisionResource::collection($divisions);
     }
 
