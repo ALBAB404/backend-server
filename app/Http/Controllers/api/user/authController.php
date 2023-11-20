@@ -10,7 +10,9 @@ use App\Http\Requests\user\loginRequest;
 use App\Http\Resources\user\authresource;
 use App\Http\Requests\user\registerRequest;
 use App\Http\Requests\user\OtpVerifyRequest;
+use App\Http\Resources\User\WishlistResource;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Auth;
 
 
 class authController extends Controller
@@ -108,6 +110,21 @@ class authController extends Controller
     public function user(Request $request)
     {
         return authresource::make($request->user());
+    }
+
+    public function address(Request $request)
+    {
+        $id = Auth::guard('user-api')->id();
+
+
+        $data = User::where('id', $id)->select('division_id', 'district_id', 'address')->with([
+            'division' => function ($query) {
+                $query->select('name', 'id');
+        },'district' => function ($query) {
+                $query->select('name', 'id');
+        }])->first();
+
+        return WishlistResource::make($data);
     }
 
 }
